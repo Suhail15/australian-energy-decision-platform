@@ -8,5 +8,7 @@
 | `fct_operational_demand` | One half-hour demand reading | `interval_start_utc`, `interval_start_aest`, `operational_demand_mw` | Regional context; separate from example business use. |
 | `daily_price_metrics` | One Queensland local day | observed count, mean, median, percentiles, max, standard deviation, negative count | Complete day has 288 observations. |
 | `hourly_price_patterns` | One weekday/hour combination over the loaded period | observed count, mean, median, 95th percentile | Sunday is 0. |
+| `daily_demand_metrics` (Power BI snapshot) | One Queensland local day | observed half-hour count, mean and peak operational demand in MW | Derived from `fct_operational_demand`; regional context only. |
+| `scenario_daily` (Power BI snapshot) | One complete firm-price holdout day | original, alternative, difference in AUD | Hypothetical wholesale exposure, not retail-bill savings. |
 
 `MW` is power at an instant or averaged interval. `MWh` and `kWh` are energy over time. The scenario converts power in kW to energy in kWh using the five-minute interval duration, then divides by 1,000 because prices are per MWh.

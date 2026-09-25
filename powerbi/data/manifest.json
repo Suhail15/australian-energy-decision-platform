@@ -1,0 +1,31 @@
+{
+  "generated_at_utc": "2026-09-25T22:40:55.831965+00:00",
+  "source": "AEMO NEMWeb Queensland observations, 2025-09-14 to 2026-09-12",
+  "scenario": "Hypothetical 5 kW activity shifted 16:00-18:00 to 11:00-13:00; FIRM price holdout only",
+  "files": {
+    "dim_date.csv": {
+      "bytes": 13008,
+      "sha256": "585d756cb6e4c6a48ab298cdeeb251b7e695bb43df93775d808203845df7d135"
+    },
+    "dim_region.csv": {
+      "bytes": 74,
+      "sha256": "0418e087e85d90a7c7662f9c87e2e330e7420f8013684048d1bf88c4f8ebb892"
+    },
+    "daily_price_metrics.csv": {
+      "bytes": 33926,
+      "sha256": "7b07dadba3aa7560fe9df69720a38f2a1639013b7760114d115b823a7d72bac3"
+    },
+    "hourly_price_patterns.csv": {
+      "bytes": 8809,
+      "sha256": "c499c7f1d9b346449eb9ad4244e55deb69462f32bf48ce569d718900fc895290"
+    },
+    "scenario_daily.csv": {
+      "bytes": 2868,
+      "sha256": "57dbc022d28737a4a4110a90fef41aba6caface8367501c63342039d1631d2ac"
+    },
+    "daily_demand_metrics.csv": {
+      "bytes": 15077,
+      "sha256": "15ea3383bb38e37be8019b6b8753ac96cec14a201b83b8a22400d157ad630f91"
+    }
+  }
+}

@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import os
 import json
+import hashlib
+import shutil
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import duckdb
@@ -64,3 +67,46 @@ def export_bi() -> list[Path]:
         daily.to_csv(scenario_path, index=False)
         paths.append(scenario_path)
     return paths
+
+
+def package_bi() -> list[Path]:
+    """Commit-sized, dated Power BI Desktop inputs independent of the local warehouse."""
+    exports = {path.name: path for path in export_bi()}
+    names = ["dim_date.csv", "dim_region.csv", "daily_price_metrics.csv",
+             "hourly_price_patterns.csv", "scenario_daily.csv"]
+    missing = [name for name in names if name not in exports]
+    if missing:
+        raise FileNotFoundError(f"Run energy-platform evaluate before packaging BI data: {missing}")
+    output = ROOT / "powerbi" / "data"
+    output.mkdir(parents=True, exist_ok=True)
+    paths = []
+    for name in names:
+        path = output / name
+        shutil.copyfile(exports[name], path)
+        paths.append(path)
+    demand_path = output / "daily_demand_metrics.csv"
+    with duckdb.connect(str(database_path()), read_only=True) as con:
+        con.execute("""
+            COPY (
+                SELECT region_id, local_date, count(*)::integer AS observed_intervals,
+                       avg(operational_demand_mw) AS mean_operational_demand_mw,
+                       max(operational_demand_mw) AS peak_operational_demand_mw
+                FROM fct_operational_demand
+                GROUP BY region_id, local_date
+                ORDER BY region_id, local_date
+            ) TO ? (HEADER, DELIMITER ',')
+        """, [str(demand_path)])
+        first_date, last_date = con.execute(
+            "SELECT min(local_date), max(local_date) FROM daily_price_metrics"
+        ).fetchone()
+    paths.append(demand_path)
+    manifest = {
+        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "source": f"AEMO NEMWeb Queensland observations, {first_date} to {last_date}",
+        "scenario": "Hypothetical 5 kW activity shifted 16:00-18:00 to 11:00-13:00; FIRM price holdout only",
+        "files": {path.name: {"bytes": path.stat().st_size,
+                              "sha256": hashlib.sha256(path.read_bytes()).hexdigest()} for path in paths},
+    }
+    manifest_path = output / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
+    return paths + [manifest_path]

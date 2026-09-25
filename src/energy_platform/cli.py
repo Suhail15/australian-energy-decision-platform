@@ -10,7 +10,7 @@ from .aemo import prepare, sync
 from .paths import ROOT
 from .queries import prices_for_scenario
 from .scenario import Scenario, evaluate_frame
-from .warehouse import export_bi, load_raw, run_dbt
+from .warehouse import export_bi, load_raw, package_bi, run_dbt
 
 DEFAULT_START = date(2025, 9, 14)
 DEFAULT_END = date(2026, 9, 12)
@@ -26,7 +26,7 @@ def main() -> None:
         cmd.add_argument("--end", type=date.fromisoformat, default=DEFAULT_END)
         if name in ("sync", "run-all"):
             cmd.add_argument("--refresh", action="store_true", help="Fetch AEMO files again, including cached files")
-    for name in ("prepare", "build", "export-bi"):
+    for name in ("prepare", "build", "export-bi", "package-bi"):
         sub.add_parser(name)
     args = parser.parse_args()
     if args.command in ("sync", "run-all"):
@@ -51,6 +51,8 @@ def main() -> None:
         print(json.dumps({key: value for key, value in sensitivity.items() if key != "daily"}, indent=2))
     if args.command in ("export-bi", "run-all"):
         print("BI exports:", *export_bi(), sep="\n")
+    if args.command == "package-bi":
+        print("Power BI Desktop package:", *package_bi(), sep="\n")
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ The central question is: **How would moving a fixed amount of electricity use fr
 - Five-minute firm trading prices from AEMO NEMWeb TradingIS archives.
 - Separate half-hour actual operational demand from AEMO's Operational Demand files.
 - Fixed, equal-energy schedule comparison on complete days. The selected schedule is evaluated on a later holdout period beginning 14 June 2026.
-- Source files, BI export files, and the local database are excluded from Git. Their download addresses and checksums are stored in the local source manifest.
+- Original source files, large BI exports, and the local database are excluded from Git. A small, derived [Power BI report dataset](powerbi/data/) is included for the Windows handoff. Source download addresses and checksums are stored in the local manifest.
 
 See [source audit](docs/source_audit.md), [methodology](docs/methodology.md), and [data dictionary](docs/data_dictionary.md) for definitions and limitations.
 
@@ -29,9 +29,12 @@ energy-platform prepare
 energy-platform build
 energy-platform evaluate
 energy-platform export-bi
+energy-platform package-bi
 ```
 
 The first command downloads about 90 MB of archived ZIP files and a small set of demand files. `prepare` checks the source hashes and extracts Queensland records into local Parquet files. `build` loads the prepared records into DuckDB, then runs dbt models and tests. `evaluate` writes the holdout result to `reports/holdout_result.json`.
+
+`package-bi` creates the compact CSV set and checksum manifest in `powerbi/data/`. That snapshot is already committed, so Power BI Desktop on Windows can import it without repeating the AEMO download. See the [Power BI handoff](powerbi/README.md) for the model, measures, report pages, and reconciliation figures.
 
 `sync` reuses cached source files and records their retrieval time, URL, size, and checksum. Use `energy-platform sync --refresh` to fetch the source files again when checking for upstream revisions.
 
@@ -82,9 +85,9 @@ The price and demand series retain their separate interval lengths. Scenario exp
 | Analytical validation | `src/energy_platform/scenario.py`, `tests/`, `docs/methodology.md` |
 | API development | `src/energy_platform/api.py`, `/docs` |
 | Business communication | `reports/client_memo.md` and dashboard |
-| BI preparation | `energy-platform export-bi`, `powerbi/README.md` |
+| BI preparation | `energy-platform package-bi`, `powerbi/data/`, `powerbi/README.md` |
 
-Power BI Desktop requires Windows. The repository provides consistent BI export tables and a report specification; an authored Power BI report must be produced and verified in a compatible environment before Power BI project experience is claimed.
+Power BI Desktop requires Windows. The repository provides ready-to-import, dated tables and a report specification for the user's Windows laptop. The `.pbix` is pending authoring and verification there; do not claim Power BI report experience from this repository until it is added.
 
 ## Sources
 
