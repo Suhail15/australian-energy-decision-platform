@@ -1,0 +1,11 @@
+.venv
+*.egg-info
+dbt/.user.yml
+.git
+data/raw
+data/processed
+data/warehouse
+dbt/target
+dbt/logs
+__pycache__
+.pytest_cache

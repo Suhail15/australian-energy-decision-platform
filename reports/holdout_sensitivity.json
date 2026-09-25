@@ -1,0 +1,573 @@
+{
+  "period_start": "2026-06-14",
+  "period_end": "2026-09-12",
+  "assumptions": {
+    "operating_start_hour": 8,
+    "operating_end_hour": 20,
+    "background_kw": 5.0,
+    "flexible_kw": 5.0,
+    "flexible_hours": 2,
+    "original_start_hour": 16,
+    "alternative_start_hour": 11,
+    "max_combined_kw": 10.0
+  },
+  "complete_days": 91,
+  "excluded_days": [],
+  "daily_energy_kwh": 70.0,
+  "original_total_aud": 357.24,
+  "alternative_total_aud": 291.49,
+  "reduction_total_aud": 65.75,
+  "reduction_percent": 18.41,
+  "median_daily_reduction_aud": 0.72,
+  "worst_daily_reduction_aud": 0.18,
+  "days_better_percent": 100.0,
+  "daily": [
+    {
+      "date": "2026-06-14",
+      "original_aud": 4.143542,
+      "alternative_aud": 3.5522,
+      "reduction_aud": 0.591342
+    },
+    {
+      "date": "2026-06-15",
+      "original_aud": 4.037792,
+      "alternative_aud": 3.599975,
+      "reduction_aud": 0.437817
+    },
+    {
+      "date": "2026-06-16",
+      "original_aud": 3.561567,
+      "alternative_aud": 3.170242,
+      "reduction_aud": 0.391325
+    },
+    {
+      "date": "2026-06-17",
+      "original_aud": 3.93425,
+      "alternative_aud": 3.614567,
+      "reduction_aud": 0.319683
+    },
+    {
+      "date": "2026-06-18",
+      "original_aud": 4.486,
+      "alternative_aud": 4.166383,
+      "reduction_aud": 0.319617
+    },
+    {
+      "date": "2026-06-19",
+      "original_aud": 2.775929,
+      "alternative_aud": 2.011458,
+      "reduction_aud": 0.764471
+    },
+    {
+      "date": "2026-06-20",
+      "original_aud": 4.308854,
+      "alternative_aud": 3.89445,
+      "reduction_aud": 0.414404
+    },
+    {
+      "date": "2026-06-21",
+      "original_aud": 5.508542,
+      "alternative_aud": 4.984175,
+      "reduction_aud": 0.524367
+    },
+    {
+      "date": "2026-06-22",
+      "original_aud": 4.494004,
+      "alternative_aud": 3.423083,
+      "reduction_aud": 1.070921
+    },
+    {
+      "date": "2026-06-23",
+      "original_aud": 4.917117,
+      "alternative_aud": 3.823433,
+      "reduction_aud": 1.093683
+    },
+    {
+      "date": "2026-06-24",
+      "original_aud": 7.316079,
+      "alternative_aud": 5.730754,
+      "reduction_aud": 1.585325
+    },
+    {
+      "date": "2026-06-25",
+      "original_aud": 7.082813,
+      "alternative_aud": 5.872092,
+      "reduction_aud": 1.210721
+    },
+    {
+      "date": "2026-06-26",
+      "original_aud": 8.391792,
+      "alternative_aud": 7.681188,
+      "reduction_aud": 0.710604
+    },
+    {
+      "date": "2026-06-27",
+      "original_aud": 6.279696,
+      "alternative_aud": 5.835804,
+      "reduction_aud": 0.443892
+    },
+    {
+      "date": "2026-06-28",
+      "original_aud": 5.008513,
+      "alternative_aud": 4.586862,
+      "reduction_aud": 0.42165
+    },
+    {
+      "date": "2026-06-29",
+      "original_aud": 4.785833,
+      "alternative_aud": 3.891233,
+      "reduction_aud": 0.8946
+    },
+    {
+      "date": "2026-06-30",
+      "original_aud": 8.619504,
+      "alternative_aud": 8.036671,
+      "reduction_aud": 0.582833
+    },
+    {
+      "date": "2026-07-01",
+      "original_aud": 5.836188,
+      "alternative_aud": 5.535871,
+      "reduction_aud": 0.300317
+    },
+    {
+      "date": "2026-07-02",
+      "original_aud": 5.831187,
+      "alternative_aud": 5.517267,
+      "reduction_aud": 0.313921
+    },
+    {
+      "date": "2026-07-03",
+      "original_aud": 3.400554,
+      "alternative_aud": 2.76545,
+      "reduction_aud": 0.635104
+    },
+    {
+      "date": "2026-07-04",
+      "original_aud": 2.639275,
+      "alternative_aud": 1.745413,
+      "reduction_aud": 0.893863
+    },
+    {
+      "date": "2026-07-05",
+      "original_aud": 2.774538,
+      "alternative_aud": 1.878933,
+      "reduction_aud": 0.895604
+    },
+    {
+      "date": "2026-07-06",
+      "original_aud": 4.842092,
+      "alternative_aud": 4.303808,
+      "reduction_aud": 0.538283
+    },
+    {
+      "date": "2026-07-07",
+      "original_aud": 4.505646,
+      "alternative_aud": 3.558633,
+      "reduction_aud": 0.947013
+    },
+    {
+      "date": "2026-07-08",
+      "original_aud": 5.245938,
+      "alternative_aud": 4.544604,
+      "reduction_aud": 0.701333
+    },
+    {
+      "date": "2026-07-09",
+      "original_aud": 6.180371,
+      "alternative_aud": 5.430288,
+      "reduction_aud": 0.750083
+    },
+    {
+      "date": "2026-07-10",
+      "original_aud": 6.038221,
+      "alternative_aud": 5.564954,
+      "reduction_aud": 0.473267
+    },
+    {
+      "date": "2026-07-11",
+      "original_aud": 3.800342,
+      "alternative_aud": 3.183367,
+      "reduction_aud": 0.616975
+    },
+    {
+      "date": "2026-07-12",
+      "original_aud": 2.11975,
+      "alternative_aud": 1.441213,
+      "reduction_aud": 0.678538
+    },
+    {
+      "date": "2026-07-13",
+      "original_aud": 2.64855,
+      "alternative_aud": 1.856458,
+      "reduction_aud": 0.792092
+    },
+    {
+      "date": "2026-07-14",
+      "original_aud": 2.925496,
+      "alternative_aud": 2.307096,
+      "reduction_aud": 0.6184
+    },
+    {
+      "date": "2026-07-15",
+      "original_aud": 4.436492,
+      "alternative_aud": 3.385342,
+      "reduction_aud": 1.05115
+    },
+    {
+      "date": "2026-07-16",
+      "original_aud": 3.619221,
+      "alternative_aud": 2.787733,
+      "reduction_aud": 0.831487
+    },
+    {
+      "date": "2026-07-17",
+      "original_aud": 5.763,
+      "alternative_aud": 5.269233,
+      "reduction_aud": 0.493767
+    },
+    {
+      "date": "2026-07-18",
+      "original_aud": 2.571554,
+      "alternative_aud": 1.739108,
+      "reduction_aud": 0.832446
+    },
+    {
+      "date": "2026-07-19",
+      "original_aud": 2.65835,
+      "alternative_aud": 1.858133,
+      "reduction_aud": 0.800217
+    },
+    {
+      "date": "2026-07-20",
+      "original_aud": 4.272554,
+      "alternative_aud": 3.67825,
+      "reduction_aud": 0.594304
+    },
+    {
+      "date": "2026-07-21",
+      "original_aud": 5.364113,
+      "alternative_aud": 4.832567,
+      "reduction_aud": 0.531546
+    },
+    {
+      "date": "2026-07-22",
+      "original_aud": 5.135058,
+      "alternative_aud": 4.747338,
+      "reduction_aud": 0.387721
+    },
+    {
+      "date": "2026-07-23",
+      "original_aud": 3.798117,
+      "alternative_aud": 3.398287,
+      "reduction_aud": 0.399829
+    },
+    {
+      "date": "2026-07-24",
+      "original_aud": 2.035004,
+      "alternative_aud": 1.309542,
+      "reduction_aud": 0.725463
+    },
+    {
+      "date": "2026-07-25",
+      "original_aud": 1.905983,
+      "alternative_aud": 1.185979,
+      "reduction_aud": 0.720004
+    },
+    {
+      "date": "2026-07-26",
+      "original_aud": 3.222125,
+      "alternative_aud": 2.252196,
+      "reduction_aud": 0.969929
+    },
+    {
+      "date": "2026-07-27",
+      "original_aud": 6.169675,
+      "alternative_aud": 5.305858,
+      "reduction_aud": 0.863817
+    },
+    {
+      "date": "2026-07-28",
+      "original_aud": 4.466988,
+      "alternative_aud": 3.923558,
+      "reduction_aud": 0.543429
+    },
+    {
+      "date": "2026-07-29",
+      "original_aud": 3.28205,
+      "alternative_aud": 2.242896,
+      "reduction_aud": 1.039154
+    },
+    {
+      "date": "2026-07-30",
+      "original_aud": 3.9269,
+      "alternative_aud": 2.693333,
+      "reduction_aud": 1.233567
+    },
+    {
+      "date": "2026-07-31",
+      "original_aud": 4.623071,
+      "alternative_aud": 3.696258,
+      "reduction_aud": 0.926813
+    },
+    {
+      "date": "2026-08-01",
+      "original_aud": 3.144175,
+      "alternative_aud": 2.429467,
+      "reduction_aud": 0.714708
+    },
+    {
+      "date": "2026-08-02",
+      "original_aud": 2.230254,
+      "alternative_aud": 1.516442,
+      "reduction_aud": 0.713812
+    },
+    {
+      "date": "2026-08-03",
+      "original_aud": 5.020833,
+      "alternative_aud": 4.602758,
+      "reduction_aud": 0.418075
+    },
+    {
+      "date": "2026-08-04",
+      "original_aud": 3.417721,
+      "alternative_aud": 2.367188,
+      "reduction_aud": 1.050533
+    },
+    {
+      "date": "2026-08-05",
+      "original_aud": 4.286571,
+      "alternative_aud": 2.882958,
+      "reduction_aud": 1.403612
+    },
+    {
+      "date": "2026-08-06",
+      "original_aud": 6.312183,
+      "alternative_aud": 5.711333,
+      "reduction_aud": 0.60085
+    },
+    {
+      "date": "2026-08-07",
+      "original_aud": 3.775658,
+      "alternative_aud": 2.660296,
+      "reduction_aud": 1.115363
+    },
+    {
+      "date": "2026-08-08",
+      "original_aud": 2.770092,
+      "alternative_aud": 1.783342,
+      "reduction_aud": 0.98675
+    },
+    {
+      "date": "2026-08-09",
+      "original_aud": 3.460504,
+      "alternative_aud": 2.950963,
+      "reduction_aud": 0.509542
+    },
+    {
+      "date": "2026-08-10",
+      "original_aud": 4.749433,
+      "alternative_aud": 4.571654,
+      "reduction_aud": 0.177779
+    },
+    {
+      "date": "2026-08-11",
+      "original_aud": 2.371642,
+      "alternative_aud": 1.49815,
+      "reduction_aud": 0.873492
+    },
+    {
+      "date": "2026-08-12",
+      "original_aud": 4.69575,
+      "alternative_aud": 4.241008,
+      "reduction_aud": 0.454742
+    },
+    {
+      "date": "2026-08-13",
+      "original_aud": 2.627892,
+      "alternative_aud": 1.623117,
+      "reduction_aud": 1.004775
+    },
+    {
+      "date": "2026-08-14",
+      "original_aud": 3.757708,
+      "alternative_aud": 2.352417,
+      "reduction_aud": 1.405292
+    },
+    {
+      "date": "2026-08-15",
+      "original_aud": 2.958721,
+      "alternative_aud": 2.146117,
+      "reduction_aud": 0.812604
+    },
+    {
+      "date": "2026-08-16",
+      "original_aud": 2.606929,
+      "alternative_aud": 1.88825,
+      "reduction_aud": 0.718679
+    },
+    {
+      "date": "2026-08-17",
+      "original_aud": 3.276071,
+      "alternative_aud": 2.799162,
+      "reduction_aud": 0.476908
+    },
+    {
+      "date": "2026-08-18",
+      "original_aud": 2.679979,
+      "alternative_aud": 2.165071,
+      "reduction_aud": 0.514908
+    },
+    {
+      "date": "2026-08-19",
+      "original_aud": 2.260283,
+      "alternative_aud": 1.586238,
+      "reduction_aud": 0.674046
+    },
+    {
+      "date": "2026-08-20",
+      "original_aud": 2.775663,
+      "alternative_aud": 2.012246,
+      "reduction_aud": 0.763417
+    },
+    {
+      "date": "2026-08-21",
+      "original_aud": 2.264288,
+      "alternative_aud": 1.47715,
+      "reduction_aud": 0.787138
+    },
+    {
+      "date": "2026-08-22",
+      "original_aud": 4.837696,
+      "alternative_aud": 4.513629,
+      "reduction_aud": 0.324067
+    },
+    {
+      "date": "2026-08-23",
+      "original_aud": 1.868075,
+      "alternative_aud": 1.137942,
+      "reduction_aud": 0.730133
+    },
+    {
+      "date": "2026-08-24",
+      "original_aud": 3.467454,
+      "alternative_aud": 2.789208,
+      "reduction_aud": 0.678246
+    },
+    {
+      "date": "2026-08-25",
+      "original_aud": 6.162242,
+      "alternative_aud": 5.421246,
+      "reduction_aud": 0.740996
+    },
+    {
+      "date": "2026-08-26",
+      "original_aud": 4.929433,
+      "alternative_aud": 4.754229,
+      "reduction_aud": 0.175204
+    },
+    {
+      "date": "2026-08-27",
+      "original_aud": 4.335467,
+      "alternative_aud": 3.340421,
+      "reduction_aud": 0.995046
+    },
+    {
+      "date": "2026-08-28",
+      "original_aud": 2.848075,
+      "alternative_aud": 1.955142,
+      "reduction_aud": 0.892933
+    },
+    {
+      "date": "2026-08-29",
+      "original_aud": 2.201829,
+      "alternative_aud": 1.498208,
+      "reduction_aud": 0.703621
+    },
+    {
+      "date": "2026-08-30",
+      "original_aud": 2.367604,
+      "alternative_aud": 1.526496,
+      "reduction_aud": 0.841108
+    },
+    {
+      "date": "2026-08-31",
+      "original_aud": 3.038542,
+      "alternative_aud": 2.172738,
+      "reduction_aud": 0.865804
+    },
+    {
+      "date": "2026-09-01",
+      "original_aud": 2.238883,
+      "alternative_aud": 1.551033,
+      "reduction_aud": 0.68785
+    },
+    {
+      "date": "2026-09-02",
+      "original_aud": 2.300275,
+      "alternative_aud": 1.483279,
+      "reduction_aud": 0.816996
+    },
+    {
+      "date": "2026-09-03",
+      "original_aud": 2.248425,
+      "alternative_aud": 1.373546,
+      "reduction_aud": 0.874879
+    },
+    {
+      "date": "2026-09-04",
+      "original_aud": 1.765354,
+      "alternative_aud": 1.071888,
+      "reduction_aud": 0.693467
+    },
+    {
+      "date": "2026-09-05",
+      "original_aud": 1.794188,
+      "alternative_aud": 1.042038,
+      "reduction_aud": 0.75215
+    },
+    {
+      "date": "2026-09-06",
+      "original_aud": 1.864096,
+      "alternative_aud": 0.892308,
+      "reduction_aud": 0.971787
+    },
+    {
+      "date": "2026-09-07",
+      "original_aud": 3.220517,
+      "alternative_aud": 2.229354,
+      "reduction_aud": 0.991163
+    },
+    {
+      "date": "2026-09-08",
+      "original_aud": 4.078025,
+      "alternative_aud": 3.235242,
+      "reduction_aud": 0.842783
+    },
+    {
+      "date": "2026-09-09",
+      "original_aud": 3.537992,
+      "alternative_aud": 2.744096,
+      "reduction_aud": 0.793896
+    },
+    {
+      "date": "2026-09-10",
+      "original_aud": 4.319342,
+      "alternative_aud": 4.070933,
+      "reduction_aud": 0.248408
+    },
+    {
+      "date": "2026-09-11",
+      "original_aud": 4.075692,
+      "alternative_aud": 3.677496,
+      "reduction_aud": 0.398196
+    },
+    {
+      "date": "2026-09-12",
+      "original_aud": 2.610204,
+      "alternative_aud": 1.931613,
+      "reduction_aud": 0.678592
+    }
+  ],
+  "interpretation": "Historical wholesale-price exposure for a hypothetical load; retail tariffs and operating costs are excluded."
+}

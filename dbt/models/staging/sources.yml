@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: aemo
+    schema: main
+    tables:
+      - name: raw_price
+      - name: raw_demand

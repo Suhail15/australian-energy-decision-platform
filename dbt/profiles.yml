@@ -1,0 +1,7 @@
+energy_market:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('ENERGY_DB_PATH', 'data/warehouse/energy.duckdb') }}"
+      threads: 4

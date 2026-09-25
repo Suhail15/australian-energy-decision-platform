@@ -1,0 +1,16 @@
+.venv/
+*.egg-info/
+dbt/.user.yml
+__pycache__/
+.pytest_cache/
+.dbt/
+target/
+logs/
+.DS_Store
+.env
+data/raw/*
+data/processed/*
+data/warehouse/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/warehouse/.gitkeep
