@@ -1,6 +1,6 @@
 # Power BI Desktop handoff
 
-The six small CSV files in [`data/`](data/) are a public, reproducible snapshot for the locally authored [`queensland_energy_market.pbix`](queensland_energy_market.pbix). They contain aggregated AEMO market data and the **hypothetical** scenario result. No receipt, customer, or business meter data is included. The report has four pages and its core measures have been checked in Desktop; the close-and-reopen check and final visual review remain pending.
+The six small CSV files in [`data/`](data/) are a public, reproducible snapshot for the locally authored [`queensland_energy_market.pbix`](queensland_energy_market.pbix). They contain aggregated AEMO market data and the **hypothetical** scenario result. No receipt, customer, or business meter data is included. The four-page report was saved, reopened, and reconciled in Power BI Desktop on Windows.
 
 For the complete six-table model, page layouts, and Desktop reconciliation checklist, use [`AUTHORING_GUIDE.md`](AUTHORING_GUIDE.md). The measures are documented in [`queensland_energy_market.dax`](queensland_energy_market.dax); [`create_and_check_measures.dax`](create_and_check_measures.dax) is the DAX Query View script used to add and check them. On Windows, run `./powerbi/verify_powerbi_inputs.ps1 -RepoPath .` from the repository root to check the manifest, table keys, and holdout CSV against the committed JSON.
 
@@ -37,27 +37,6 @@ The full five-minute price and half-hour demand facts stay out of Git to keep th
 
 **Definitions:** AEMO source links, units, five-minute price versus half-hour demand source grains, `FIRM` filtering, holdout dates, and the absence of a real tariff or customer meter profile.
 
-Useful DAX measures for the compact tables:
+The canonical DAX definitions are in [`queensland_energy_market.dax`](queensland_energy_market.dax). The tested [`create_and_check_measures.dax`](create_and_check_measures.dax) adds all 21 measures through DAX Query View and returns the principal reconciliation values. In particular, `Scenario Difference (AUD)` subtracts the alternative exposure from the original exposure; it does not sum `reduction_aud`, which differs by $0.000002 before display rounding.
 
-```dax
-Price Intervals = SUM(daily_price_metrics[observed_intervals])
-
-Weighted Mean Price (AUD/MWh) =
-DIVIDE(
-    SUMX(daily_price_metrics, daily_price_metrics[mean_price_aud_per_mwh] * daily_price_metrics[observed_intervals]),
-    [Price Intervals]
-)
-
-Negative Price Share =
-DIVIDE(SUM(daily_price_metrics[negative_intervals]), [Price Intervals])
-
-Complete Firm Days =
-CALCULATE(COUNTROWS(daily_price_metrics), daily_price_metrics[observed_intervals] = 288)
-
-Scenario Original (AUD) = SUM(scenario_daily[original_aud])
-Scenario Alternative (AUD) = SUM(scenario_daily[alternative_aud])
-Scenario Difference (AUD) = SUM(scenario_daily[reduction_aud])
-Scenario Days = COUNTROWS(scenario_daily)
-```
-
-With no slicer applied, the scenario page must show **$291.74 original, $236.43 alternative, $55.31 difference, and 75 complete firm days**. The date dimension spans 14 September 2025–12 September 2026. Compare the report to [`reports/holdout_result.json`](../reports/holdout_result.json) and [`reports/verification.md`](../reports/verification.md) before calling the Power BI artifact complete.
+With the Scenario slicer at 14 June–12 September 2026, the reopened report shows **$291.74 original, $236.43 alternative, $55.31 difference (18.96%), 75 complete FIRM days, and 16 excluded days**. The date dimension spans 14 September 2025–12 September 2026. See [`AUTHORING_GUIDE.md`](AUTHORING_GUIDE.md) for the full reconciliation checklist and remaining data limitations.

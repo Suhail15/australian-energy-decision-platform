@@ -153,4 +153,4 @@ foreach ($date in $holdout.excluded_days) {
     if (-not $excludedDates.ContainsKey($date)) { throw "Excluded date mismatch: $date" }
 }
 Write-Host 'PASS excluded dates match holdout JSON'
-Write-Host 'PASS Power BI input preflight complete. Desktop model and visuals still require verification.'
+Write-Host 'PASS Power BI input preflight complete. See powerbi/AUTHORING_GUIDE.md for separate Desktop model and visual verification.'
