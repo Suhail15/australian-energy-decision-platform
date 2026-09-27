@@ -1,4 +1,6 @@
-# Methodology and limits
+# How I made the comparison
+
+I kept the model simple enough to audit: two fixed schedules use the same amount of electricity, and the only thing that changes is the two-hour flexible window. Prices and demand come from different AEMO series, so I did not combine their intervals or treat regional demand as a business meter reading.
 
 ## Market measures
 
@@ -25,4 +27,4 @@ The primary result uses only prices marked `FIRM` by AEMO. A separate sensitivit
 
 The scenario is a **historical fixed-schedule comparison**, not a forecast or day-ahead optimisation. It assumes the load can be moved without productivity loss or other operating costs. It contains no actual customer meter data, retail tariff, network charge, tax, hedging arrangement, or contract terms. A wholesale-market difference is not a customer-bill saving.
 
-CER annual facility emissions and renewable-project capacity may be added to a separate context page. Their time and entity grains differ from the five-minute market data; this project does not infer marginal emissions for the load shift.
+I did not estimate emissions from the load shift. Annual facility emissions and project capacity have different time and entity grains from these five-minute prices, so combining them here would suggest a precision the data cannot support.

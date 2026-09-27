@@ -1,24 +1,61 @@
 # Australian Energy Decision Platform
 
-An end-to-end portfolio project using public Australian Energy Market Operator data to examine Queensland wholesale electricity prices and test a **hypothetical** small-business load shift. It combines Python ingestion, data checks, a DuckDB warehouse, dbt SQL models, an API, and an interactive decision view.
+**Can moving a two-hour activity change a business's exposure to wholesale electricity prices?**
 
-The central question is: **How would moving a fixed amount of electricity use from 16:00–18:00 to 11:00–13:00 have changed historical wholesale-price exposure, and how consistently?** The default business profile is invented for demonstration. Results are not retail-bill savings or advice to a real customer.
+I'm Suhail, a data science graduate interested in the gap between a good-looking chart and a decision someone can defend. I first explored a grocery price-history project using my own receipts. There were too few repeat products to make useful claims, so I moved to public Australian energy data and a question I could test more carefully.
 
-**Observed result:** In the 91-day reserved holdout period, 75 days had complete `FIRM` price data. On those days, the fixed shift reduced calculated wholesale exposure from **$291.74 to $236.43**, a **$55.31 (18.96%)** difference. The alternative was lower on each of the 75 included days. This is a retrospective result for one invented load profile; see the [client memo](reports/client_memo.md) for the coverage sensitivity and decision limits.
+This project follows Queensland electricity prices from AEMO through a Python and SQL pipeline, a small scenario model, an API, a Streamlit app, and a [four-page Power BI report](powerbi/queensland_energy_market.pbix). The business and its electricity use are **invented**. No Coles, customer, or personal receipt data is used here.
 
-## Current scope
+## The short answer
 
-- Queensland NEM region (`QLD1`), 14 September 2025–12 September 2026.
-- Five-minute firm trading prices from AEMO NEMWeb TradingIS archives.
-- Separate half-hour actual operational demand from AEMO's Operational Demand files.
-- Fixed, equal-energy schedule comparison on complete days. The selected schedule is evaluated on a later holdout period beginning 14 June 2026.
-- Original source files, large BI exports, and the local database are excluded from Git. A small, derived [Power BI report dataset](powerbi/data/) is included for the Windows handoff. Source download addresses and checksums are stored in the local manifest.
+I compared a 5 kW activity running from **16:00–18:00** with the same activity running from **11:00–13:00**. Both schedules use **70 kWh per day** including an unchanged background load. I fixed the schedules before evaluating the later holdout period.
 
-See [source audit](docs/source_audit.md), [methodology](docs/methodology.md), and [data dictionary](docs/data_dictionary.md) for definitions and limitations.
+| Holdout result | Value |
+| --- | ---: |
+| Period | 14 June–12 September 2026 |
+| Days with complete `FIRM` prices | 75 of 91 |
+| Original schedule, calculated wholesale exposure | $291.74 |
+| Earlier schedule, calculated wholesale exposure | $236.43 |
+| Difference | **$55.31 (18.96%)** |
 
-## Reproduce locally
+The earlier schedule had lower calculated exposure on all **75 included days**. That is an interesting historical pattern, but **$55.31 is not a bill saving**. A real business may be on a fixed retail tariff, may not be able to move the activity, or may face costs that outweigh the difference. The [decision brief](reports/client_memo.md) explains what I would need before making a recommendation.
 
-Use Python 3.11 or newer from the project root:
+![Cumulative historical wholesale exposure for the original and earlier schedules across 75 complete FIRM-price days. The earlier schedule ends at $236.43 versus $291.74 for the original.](docs/images/scenario-exposure.png)
+
+This figure is rendered from the committed [daily scenario results](powerbi/data/scenario_daily.csv) with [a small plotting script](scripts/render_readme_chart.py); it is not a screenshot or a forecast.
+
+## What I built
+
+```mermaid
+flowchart LR
+    A[AEMO price and demand files] --> B[Python ingestion and checks]
+    B --> C[Local Parquet and DuckDB]
+    C --> D[dbt SQL models and tests]
+    D --> E[Scenario calculation]
+    D --> F[FastAPI and Streamlit]
+    D --> G[Power BI dataset and report]
+    E --> F
+    E --> G
+```
+
+- **Data pipeline:** Downloads AEMO report archives, records file hashes, parses five-minute Queensland prices and half-hour regional demand, and keeps the two series at their own time grains.
+- **Warehouse and checks:** Builds DuckDB tables and dbt models. Duplicate intervals, missing observations, and incomplete price days are visible rather than filled in quietly.
+- **Decision example:** Compares equal-energy schedules on complete `FIRM` price days. An independent SQL calculation checks the Python result.
+- **Ways to explore it:** The [Power BI report](powerbi/README.md) is the easiest visual entry point. The [Streamlit app](dashboard/app.py) and [FastAPI service](src/energy_platform/api.py) expose the same prepared analysis locally.
+
+The hourly Power BI heatmap covers the **whole loaded period**, so its values do not change with a daily date slicer. Regional demand is market context, not the invented business's meter profile. Those distinctions matter more than making every visual respond to every filter.
+
+## Where to start
+
+1. Open the [Power BI report](powerbi/queensland_energy_market.pbix) in Power BI Desktop on Windows. The [report notes](powerbi/README.md) explain the four pages and their data.
+2. Read the [decision brief](reports/client_memo.md) for the result, sensitivity, and practical limits.
+3. Look at the [methodology](docs/methodology.md) and [independent result check](reports/verification.md) if you want to see how the numbers were produced.
+
+The repository includes six small, derived [Power BI input tables](powerbi/data/) and their checksum manifest. Raw AEMO archives, the local DuckDB database, and large exports are left out of Git. You can inspect the report without downloading the raw files.
+
+## Reproduce the pipeline
+
+Use Python **3.11+** from the repository root. A full source refresh downloads roughly 90 MB of archives and requires AEMO's files to be available.
 
 ```bash
 python3 -m venv .venv
@@ -32,65 +69,27 @@ energy-platform export-bi
 energy-platform package-bi
 ```
 
-The first command downloads about 90 MB of archived ZIP files and a small set of demand files. `prepare` checks the source hashes and extracts Queensland records into local Parquet files. `build` loads the prepared records into DuckDB, then runs dbt models and tests. `evaluate` writes the holdout result to `reports/holdout_result.json`.
+`sync` caches each source and records its URL, retrieval time, size, and SHA-256 hash. `prepare` validates and extracts the data; `build` loads DuckDB and runs dbt; `evaluate` writes the scenario result. `package-bi` recreates the committed small CSV snapshot and manifest. Use `energy-platform sync --refresh` when you intentionally want to check for changed upstream files.
 
-`package-bi` creates the compact CSV set and checksum manifest in `powerbi/data/`. That snapshot is already committed, so Power BI Desktop on Windows can import it without repeating the AEMO download. See the [Power BI handoff](powerbi/README.md) for the model, measures, report pages, and reconciliation figures.
-
-`sync` reuses cached source files and records their retrieval time, URL, size, and checksum. Use `energy-platform sync --refresh` to fetch the source files again when checking for upstream revisions.
-
-To test the pipeline on a shorter period first, run `energy-platform sync --start 2026-08-01 --end 2026-08-31`, followed by `prepare` and `build`. The `evaluate` command should be used on a period that includes the holdout dates.
-
-Launch the applications after `build`:
+To explore the built warehouse locally:
 
 ```bash
 streamlit run dashboard/app.py
 uvicorn energy_platform.api:app --reload
 ```
 
-The Streamlit interface defaults to <http://localhost:8501>. FastAPI documentation is at <http://localhost:8000/docs>.
+The app opens at <http://localhost:8501> and the API documentation at <http://localhost:8000/docs>. Docker Compose is also available after the warehouse is built: `docker compose up --build` serves the app at <http://localhost:8502> and the API at <http://localhost:8001/docs>. The containers read the local prepared data; they do not download it for you.
 
-Alternatively, after preparing and building the local warehouse, run `docker compose up --build` to serve the dashboard at <http://localhost:8502> and the API at <http://localhost:8001/docs>. Compose mounts the locally built data read-only; it does not fetch AEMO data inside the containers.
+For a quicker offline check, run `python -m pytest -q`. The same Python checks run in [GitHub Actions](.github/workflows/checks.yml). The [local runbook](docs/runbook.md) covers rebuilds and troubleshooting.
 
-Offline verification:
+To regenerate the README figure: `pip install -e '.[visuals]'` then `python scripts/render_readme_chart.py`.
 
-```bash
-python -m pytest -q
-python -m compileall -q src dashboard
-```
+## What I would do with real business data
 
-The same offline checks run in GitHub Actions. A live-data refresh is separate because network and source availability can change.
-
-## Data flow
-
-```mermaid
-flowchart LR
-    A[AEMO NEMWeb ZIP files] --> B[Python archive parser]
-    B --> C[Validated local Parquet]
-    C --> D[DuckDB raw tables]
-    D --> E[dbt staging and mart models]
-    E --> F[Shared scenario calculation]
-    E --> G[Dashboard and API]
-    E --> H[Power BI export tables]
-    F --> G
-```
-
-The price and demand series retain their separate interval lengths. Scenario exposure uses five-minute prices only. Regional demand provides market context and is not the example business's load.
-
-## Portfolio evidence
-
-| Skill | Inspect |
-| --- | --- |
-| Python ingestion and repeatability | `src/energy_platform/aemo.py`, source manifest |
-| SQL and data modelling | `dbt/models/` and dbt data tests |
-| Analytical validation | `src/energy_platform/scenario.py`, `tests/`, `docs/methodology.md` |
-| API development | `src/energy_platform/api.py`, `/docs` |
-| Business communication | `reports/client_memo.md` and dashboard |
-| BI preparation | `energy-platform package-bi`, `powerbi/data/`, `powerbi/README.md` |
-
-Power BI Desktop requires Windows. The repository includes a locally authored four-page `.pbix`, its six-table snapshot, DAX measures, and a [build and verification guide](powerbi/AUTHORING_GUIDE.md). The report was saved, reopened in Desktop, and reconciled to the committed holdout totals.
+The current result is a **screening calculation**, not an operating instruction. I would next obtain interval meter readings, the actual retail tariff or contract, the activity's flexibility and rescheduling cost, and a longer range of market conditions. I would then recalculate the exposure that could reach the bill and test days where shifting performs worse. The [source audit](docs/source_audit.md) records why 16 holdout days were excluded from the confirmed-price result.
 
 ## Sources
 
-- [AEMO Dispatch and Trading report documentation](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/market-management-system-mms-data/dispatch)
-- [AEMO Operational Demand data](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/operational-demand-data)
-- [AER explanation of electricity-bill components](https://www.aer.gov.au/system/files/2025-08/State%20of%20the%20energy%20market%202025%20-%20Chapter%206%20-%20Retail%20energy%20markets%20and%20energy%20consumers.pdf)
+- [AEMO Dispatch and Trading reports](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/market-management-system-mms-data/dispatch)
+- [AEMO Operational Demand](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/operational-demand-data)
+- [AER explanation of retail bill components](https://www.aer.gov.au/system/files/2025-08/State%20of%20the%20energy%20market%202025%20-%20Chapter%206%20-%20Retail%20energy%20markets%20and%20energy%20consumers.pdf)

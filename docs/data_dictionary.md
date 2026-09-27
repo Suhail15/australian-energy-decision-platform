@@ -1,5 +1,7 @@
 # Data dictionary
 
+The tables intentionally have different grains. Five-minute prices drive the scenario; half-hour regional demand is context. I keep those separate so a chart cannot quietly turn regional demand into the invented business's consumption.
+
 | Table | Grain | Main fields | Notes |
 | --- | --- | --- | --- |
 | `raw_price` | One extracted Queensland trading-price record | `interval_start_utc`, `price_aud_per_mwh`, `price_status`, `invalid_flag`, `source_file` | Original source values are in local excluded Parquet and source ZIP files. |

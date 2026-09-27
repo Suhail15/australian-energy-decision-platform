@@ -1,8 +1,8 @@
-# Decision and acceptance criteria
+# What this project needed to answer
 
-The intended reader is a hypothetical small-business owner or analyst in Queensland considering whether a schedulable activity merits further investigation. The interface must show the schedule, amount of electricity moved, valid data coverage, distribution of daily outcomes, and the worst observed day. The report must explain that a real decision requires the business's interval meter data, tariff or contract terms, operating constraints, and future-price uncertainty.
+I designed the example for a Queensland small-business owner or analyst asking whether a schedulable activity is worth investigating. A useful result needs more than a headline dollar figure: it should show the hours and energy moved, how many days had usable data, the spread of daily outcomes, and the worst observed day. It also needs to say what is missing for a real decision: interval meter data, tariff or contract terms, operating constraints, and uncertainty about future prices.
 
-Acceptance criteria:
+I used these checks as the definition of done:
 
 1. Downloaded sources are traceable to URL and checksum and can be reprocessed without duplicating records.
 2. Each market metric has a stated unit, interval length, and source table.
@@ -11,4 +11,4 @@ Acceptance criteria:
 5. Negative prices and high spikes are retained if the source record is otherwise valid.
 6. Hand-calculated scenario fixtures agree with code, including one outcome where shifting costs more.
 7. API, dashboard, BI exports, and memo reconcile to the same prepared data and shared calculation.
-8. The final memo states the observed result and limitations without claiming customer-bill savings.
+8. The [decision brief](../reports/client_memo.md) states the observed result and limits without claiming customer-bill savings.

@@ -11,9 +11,9 @@ import streamlit as st
 from energy_platform import queries
 from energy_platform.scenario import Scenario, evaluate_frame
 
-st.set_page_config(page_title="NEM decision platform", page_icon="⚡", layout="wide")
-st.title("Queensland energy market decision platform")
-st.caption("AEMO market data · historical wholesale price exposure · hypothetical business scenario")
+st.set_page_config(page_title="Queensland energy prices | Suhail Hussain", page_icon="⚡", layout="wide")
+st.title("What if a business moved two hours of electricity use?")
+st.caption("A Queensland energy-data project by Suhail Hussain · AEMO prices · invented business load")
 
 
 @st.cache_data(ttl=3600)
@@ -55,6 +55,7 @@ start, end = selected
 
 market, patterns_tab, scenario_tab, evidence = st.tabs(["Market overview", "Price patterns", "Business scenario", "Evidence"])
 with market:
+    st.write("Start with the market itself: these charts show regional prices and demand, not a particular business's electricity bill.")
     daily = get_daily(start, end)
     demand = get_demand(start, end)
     if daily.empty:
@@ -75,6 +76,7 @@ with market:
         st.caption("Demand is published at half-hour intervals and is shown separately from five-minute prices.")
 
 with patterns_tab:
+    st.write("This view shows when wholesale prices tended to be higher or lower across the whole loaded period.")
     patterns = get_patterns()
     if not patterns.empty:
         pivot = patterns.pivot(index="day_of_week", columns="local_hour", values="median_price_aud_per_mwh")
@@ -115,7 +117,8 @@ with scenario_tab:
         st.download_button("Download daily scenario results", frame.to_csv(index=False), file_name="scenario_daily.csv", mime="text/csv")
 
 with evidence:
-    st.subheader("Sources and interpretation")
+    st.subheader("What this project can and cannot tell us")
+    st.write("I built this to test a practical question, then kept the data gaps and business assumptions visible alongside the result.")
     st.markdown("""
     - Prices: [AEMO NEMWeb TradingIS reports](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/market-management-system-mms-data/dispatch), five-minute Queensland regional reference price (AUD/MWh).
     - Demand: [AEMO actual operational demand](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/operational-demand-data), half-hour Queensland readings (MW).

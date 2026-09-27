@@ -1,6 +1,6 @@
-# Independent result check
+# A second check on the result
 
-The fixed-window difference can be calculated without the Python scenario module. The following DuckDB query was run against `fct_market_price` after the dbt build and returned **75 complete days, $55.31 total exposure reduction, $0.1752 minimum daily difference**. The Python result independently returned 75 days, $55.31, and $0.18 after rounding.
+I wanted a check that did not simply call the same Python scenario function twice. The following DuckDB query reads the modelled five-minute prices directly. It returned **75 complete days, a $55.31 total exposure difference, and a $0.1752 smallest daily difference**. The Python scenario independently returned 75 days, $55.31, and $0.18 after rounding.
 
 ```sql
 with daily as (
@@ -23,4 +23,4 @@ where intervals = 288;
 
 The factor `5 / 12000` represents a 5 kW flexible load, 12 five-minute intervals per hour, and 1,000 kWh per MWh. Background load cancels because both schedules use the same background profile.
 
-The full local run passed all 22 dbt models and checks and all nine Python tests. The Docker Compose build started both services; the dashboard returned HTTP 200 and the containerized API returned the same coverage figures as the local API. GitHub Actions has not run yet because this repository has not been published.
+The full local run passed all 22 dbt models and checks and all nine Python tests. The Docker Compose build started both services; the dashboard returned HTTP 200 and the containerized API returned the same coverage figures as the local API. [GitHub Actions](../.github/workflows/checks.yml) runs the offline Python checks on pushes and pull requests. A live AEMO download is intentionally separate because the upstream files and network can change.

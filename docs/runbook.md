@@ -1,7 +1,18 @@
-# Local runbook
+# Running it again
 
-Run `energy-platform sync`, `prepare`, then `build` from the repository root. `sync` may reuse existing ZIPs but writes a fresh source manifest with their checksums. `prepare` will fail if a source file no longer matches that manifest. `build` replaces raw warehouse tables and runs dbt models and tests. The dashboard and API read the prepared warehouse and do not download data when a page is requested.
+The repository includes a small Power BI snapshot, so you can open the report without rebuilding the warehouse. For a full rebuild, install the Python package as shown in the [README](../README.md), then run these commands from the repository root:
 
-If a download fails, rerun `sync`. A missing or changed AEMO report format requires inspecting the actual file and updating `docs/source_audit.md` before changing the parser. If dbt fails, inspect its error and run `dbt debug --project-dir dbt --profiles-dir dbt` with `ENERGY_DB_PATH` set to the local database path. For incomplete days, inspect the source manifest and `daily_price_metrics.observed_intervals`; no missing price is filled for scenario calculations.
+```bash
+energy-platform sync
+energy-platform prepare
+energy-platform build
+energy-platform evaluate
+energy-platform export-bi
+energy-platform package-bi
+```
 
-Run `python -m pytest -q` for offline calculation and parser tests. Run `energy-platform export-bi` only after a successful `build` to create the full BI tables in `data/processed/bi/`. After `evaluate`, run `energy-platform package-bi` to refresh the compact, tracked Power BI Desktop inputs in `powerbi/data/`. Check the scenario totals and commit the changed CSVs and checksum manifest together.
+`sync` caches the AEMO ZIP files and writes their URLs, retrieval times, sizes, and hashes to a local manifest. `prepare` refuses a source file whose hash no longer matches. `build` replaces the local raw warehouse tables, runs dbt models, and checks their keys and interval alignment. The dashboard and API read that warehouse; they do not download data when someone opens a page.
+
+If a download fails, rerun `sync`. If AEMO changes a report format, inspect the source file and update the [source audit](source_audit.md) before changing the parser. For a dbt failure, run `dbt debug --project-dir dbt --profiles-dir dbt` with `ENERGY_DB_PATH` set to the local database path. If a day looks incomplete, check the source manifest and `daily_price_metrics.observed_intervals`; the scenario does not fill missing prices.
+
+Run `python -m pytest -q` for the offline parser and calculation tests. Only run `export-bi` after a successful build. After `evaluate`, `package-bi` refreshes the six tracked Power BI CSVs and their checksum manifest. Recheck the [holdout totals](../reports/holdout_result.json) and commit the CSVs and manifest together.

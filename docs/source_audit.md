@@ -1,6 +1,6 @@
-# Source audit
+# What I actually downloaded
 
-Audit performed 26 September 2026 against downloaded AEMO NEMWeb files. This project uses the National Electricity Market region `QLD1`, which follows Australian Eastern Standard Time (UTC+10) throughout the year.
+I checked the downloaded AEMO NEMWeb files on 26 September 2026 before building the pipeline. The project uses the National Electricity Market region `QLD1`, which follows Australian Eastern Standard Time (UTC+10) throughout the year. The table below records the exact report families and fields used so the analysis can be traced back to source, rather than inferred from a dashboard label.
 
 | Series | Actual source | Observed fields | Meaning | Interval |
 | --- | --- | --- | --- | --- |
