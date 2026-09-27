@@ -1,0 +1,107 @@
+// Create these as measures in Power BI Desktop. Put them in the named table.
+// Format currency measures as AUD with two decimals; percentages as percent with two decimals.
+// This file is a paste reference, not a script that Desktop can import in one operation.
+
+// daily_price_metrics
+Price Intervals = SUM(daily_price_metrics[observed_intervals])
+
+Weighted Mean Price (AUD/MWh) =
+DIVIDE(
+    SUMX(
+        daily_price_metrics,
+        daily_price_metrics[mean_price_aud_per_mwh] * daily_price_metrics[observed_intervals]
+    ),
+    [Price Intervals]
+)
+
+Negative Price Intervals = SUM(daily_price_metrics[negative_intervals])
+
+Negative Price Share = DIVIDE([Negative Price Intervals], [Price Intervals])
+
+Complete Firm Price Days =
+CALCULATE(
+    COUNTROWS(daily_price_metrics),
+    daily_price_metrics[observed_intervals] = 288
+)
+
+Incomplete Firm Price Days =
+COUNTROWS(daily_price_metrics) - [Complete Firm Price Days]
+
+Daily P95 Price (AUD/MWh) =
+IF(
+    HASONEVALUE(dim_date[local_date]),
+    SELECTEDVALUE(daily_price_metrics[p95_price_aud_per_mwh])
+)
+
+Maximum Five-Minute Price (AUD/MWh) =
+MAX(daily_price_metrics[max_price_aud_per_mwh])
+
+// daily_demand_metrics
+Mean Operational Demand (MW) =
+DIVIDE(
+    SUMX(
+        daily_demand_metrics,
+        daily_demand_metrics[mean_operational_demand_mw] * daily_demand_metrics[observed_intervals]
+    ),
+    SUM(daily_demand_metrics[observed_intervals])
+)
+
+Peak Operational Demand (MW) =
+MAX(daily_demand_metrics[peak_operational_demand_mw])
+
+// scenario_daily
+Scenario Original (AUD) = SUM(scenario_daily[original_aud])
+
+Scenario Alternative (AUD) = SUM(scenario_daily[alternative_aud])
+
+Scenario Difference (AUD) =
+[Scenario Original (AUD)] - [Scenario Alternative (AUD)]
+
+Scenario Difference (%) =
+DIVIDE([Scenario Difference (AUD)], [Scenario Original (AUD)])
+
+Scenario Days = COALESCE(COUNTROWS(scenario_daily), 0)
+
+Scenario Days Better =
+COALESCE(
+    COUNTROWS(FILTER(scenario_daily, scenario_daily[reduction_aud] > 0)),
+    0
+)
+
+Holdout Days in Selection =
+COALESCE(
+    COUNTROWS(
+        FILTER(
+            dim_date,
+            dim_date[local_date] >= DATE(2026, 6, 14)
+                && dim_date[local_date] <= DATE(2026, 9, 12)
+        )
+    ),
+    0
+)
+
+Excluded Holdout Days =
+[Holdout Days in Selection] - [Scenario Days]
+
+Scenario Source Reduction (AUD) = SUM(scenario_daily[reduction_aud])
+
+Scenario Row Rounding Residual (AUD) =
+[Scenario Difference (AUD)] - [Scenario Source Reduction (AUD)]
+
+// Calculated columns in hourly_price_patterns (not measures).
+// Sunday=0 in this table; dim_date's Monday-zero field uses a different convention.
+Day Name =
+SWITCH(
+    hourly_price_patterns[day_of_week],
+    0, "Sunday",
+    1, "Monday",
+    2, "Tuesday",
+    3, "Wednesday",
+    4, "Thursday",
+    5, "Friday",
+    6, "Saturday"
+)
+
+// hourly_price_patterns
+Hourly Median Price (AUD/MWh) =
+SELECTEDVALUE(hourly_price_patterns[median_price_aud_per_mwh])
