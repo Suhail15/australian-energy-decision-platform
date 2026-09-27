@@ -1,0 +1,106 @@
+// Paste this whole query into Power BI Desktop's DAX Query View.
+// Run it first. Confirm the six result values below, then click Update model with changes.
+DEFINE
+    MEASURE daily_price_metrics[Price Intervals] =
+        SUM(daily_price_metrics[observed_intervals])
+
+    MEASURE daily_price_metrics[Weighted Mean Price (AUD/MWh)] =
+        DIVIDE(
+            SUMX(
+                daily_price_metrics,
+                daily_price_metrics[mean_price_aud_per_mwh] * daily_price_metrics[observed_intervals]
+            ),
+            [Price Intervals]
+        )
+
+    MEASURE daily_price_metrics[Negative Price Intervals] =
+        SUM(daily_price_metrics[negative_intervals])
+
+    MEASURE daily_price_metrics[Negative Price Share] =
+        DIVIDE([Negative Price Intervals], [Price Intervals])
+
+    MEASURE daily_price_metrics[Complete Firm Price Days] =
+        CALCULATE(
+            COUNTROWS(daily_price_metrics),
+            daily_price_metrics[observed_intervals] = 288
+        )
+
+    MEASURE daily_price_metrics[Incomplete Firm Price Days] =
+        COUNTROWS(daily_price_metrics) - [Complete Firm Price Days]
+
+    MEASURE daily_price_metrics[Daily P95 Price (AUD/MWh)] =
+        IF(
+            HASONEVALUE(dim_date[local_date]),
+            SELECTEDVALUE(daily_price_metrics[p95_price_aud_per_mwh])
+        )
+
+    MEASURE daily_price_metrics[Maximum Five-Minute Price (AUD/MWh)] =
+        MAX(daily_price_metrics[max_price_aud_per_mwh])
+
+    MEASURE daily_demand_metrics[Mean Operational Demand (MW)] =
+        DIVIDE(
+            SUMX(
+                daily_demand_metrics,
+                daily_demand_metrics[mean_operational_demand_mw] * daily_demand_metrics[observed_intervals]
+            ),
+            SUM(daily_demand_metrics[observed_intervals])
+        )
+
+    MEASURE daily_demand_metrics[Peak Operational Demand (MW)] =
+        MAX(daily_demand_metrics[peak_operational_demand_mw])
+
+    MEASURE scenario_daily[Scenario Original (AUD)] =
+        SUM(scenario_daily[original_aud])
+
+    MEASURE scenario_daily[Scenario Alternative (AUD)] =
+        SUM(scenario_daily[alternative_aud])
+
+    MEASURE scenario_daily[Scenario Difference (AUD)] =
+        [Scenario Original (AUD)] - [Scenario Alternative (AUD)]
+
+    MEASURE scenario_daily[Scenario Difference (%)] =
+        DIVIDE([Scenario Difference (AUD)], [Scenario Original (AUD)])
+
+    MEASURE scenario_daily[Scenario Days] =
+        COALESCE(COUNTROWS(scenario_daily), 0)
+
+    MEASURE scenario_daily[Scenario Days Better] =
+        COALESCE(
+            COUNTROWS(FILTER(scenario_daily, scenario_daily[reduction_aud] > 0)),
+            0
+        )
+
+    MEASURE scenario_daily[Holdout Days in Selection] =
+        COALESCE(
+            COUNTROWS(
+                FILTER(
+                    dim_date,
+                    dim_date[local_date] >= DATE(2026, 6, 14)
+                        && dim_date[local_date] <= DATE(2026, 9, 12)
+                )
+            ),
+            0
+        )
+
+    MEASURE scenario_daily[Excluded Holdout Days] =
+        [Holdout Days in Selection] - [Scenario Days]
+
+    MEASURE scenario_daily[Scenario Source Reduction (AUD)] =
+        SUM(scenario_daily[reduction_aud])
+
+    MEASURE scenario_daily[Scenario Row Rounding Residual (AUD)] =
+        [Scenario Difference (AUD)] - [Scenario Source Reduction (AUD)]
+
+    MEASURE hourly_price_patterns[Hourly Median Price (AUD/MWh)] =
+        SELECTEDVALUE(hourly_price_patterns[median_price_aud_per_mwh])
+
+EVALUATE
+ROW(
+    "Price intervals", [Price Intervals],
+    "Complete firm price days", [Complete Firm Price Days],
+    "Scenario original AUD", [Scenario Original (AUD)],
+    "Scenario alternative AUD", [Scenario Alternative (AUD)],
+    "Scenario difference AUD", [Scenario Difference (AUD)],
+    "Scenario days", [Scenario Days],
+    "Excluded holdout days", [Excluded Holdout Days]
+)

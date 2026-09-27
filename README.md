@@ -87,7 +87,7 @@ The price and demand series retain their separate interval lengths. Scenario exp
 | Business communication | `reports/client_memo.md` and dashboard |
 | BI preparation | `energy-platform package-bi`, `powerbi/data/`, `powerbi/README.md` |
 
-Power BI Desktop requires Windows. The repository provides ready-to-import, dated tables and a report specification for the user's Windows laptop. The `.pbix` is pending authoring and verification there; do not claim Power BI report experience from this repository until it is added.
+Power BI Desktop requires Windows. The repository includes a locally authored four-page `.pbix`, its six-table snapshot, DAX measures, and a [build and verification guide](powerbi/AUTHORING_GUIDE.md). The report's core figures were checked in Desktop; a close-and-reopen check and final visual review are still pending.
 
 ## Sources
 

@@ -1,10 +1,10 @@
 # Power BI Desktop handoff
 
-The six small CSV files in [`data/`](data/) are a public, reproducible snapshot for building the report on Windows. They contain aggregated AEMO market data and the **hypothetical** scenario result. No receipt, customer, or business meter data is included. The actual Power BI report has not yet been authored; add a verified `.pbix` or `.pbit` here after creating it on Windows.
+The six small CSV files in [`data/`](data/) are a public, reproducible snapshot for the locally authored [`queensland_energy_market.pbix`](queensland_energy_market.pbix). They contain aggregated AEMO market data and the **hypothetical** scenario result. No receipt, customer, or business meter data is included. The report has four pages and its core measures have been checked in Desktop; the close-and-reopen check and final visual review remain pending.
 
-For the complete six-table model, page layouts, and Desktop reconciliation checklist, use [`AUTHORING_GUIDE.md`](AUTHORING_GUIDE.md). Paste the expressions in [`queensland_energy_market.dax`](queensland_energy_market.dax) into Desktop one at a time. On Windows, run `./powerbi/verify_powerbi_inputs.ps1 -RepoPath .` from the repository root before authoring; it checks the manifest, table keys, and holdout CSV against the committed JSON.
+For the complete six-table model, page layouts, and Desktop reconciliation checklist, use [`AUTHORING_GUIDE.md`](AUTHORING_GUIDE.md). The measures are documented in [`queensland_energy_market.dax`](queensland_energy_market.dax); [`create_and_check_measures.dax`](create_and_check_measures.dax) is the DAX Query View script used to add and check them. On Windows, run `./powerbi/verify_powerbi_inputs.ps1 -RepoPath .` from the repository root to check the manifest, table keys, and holdout CSV against the committed JSON.
 
-Power BI Desktop [requires Windows](https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-get-the-desktop). Its browser service [requires a work or school account](https://learn.microsoft.com/en-us/power-bi/fundamentals/service-self-service-sign-up-help), which is not available for this project. The report can be authored and saved locally in Desktop on the user's Windows laptop.
+Power BI Desktop [requires Windows](https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-get-the-desktop). Open the committed `.pbix` locally in Desktop to inspect or finish it.
 
 ## Open the report data on Windows
 
