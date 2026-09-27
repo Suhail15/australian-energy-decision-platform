@@ -2,7 +2,7 @@
 
 ## The question
 
-If a Queensland business could move a 5 kW, two-hour activity from **16:00–18:00** to **11:00–13:00**, would that have changed its historical wholesale-price exposure? I kept a 5 kW background load from 08:00–20:00, so both schedules use **70 kWh per day**. This is an invented example, not a real business or Coles load profile.
+If a Queensland business could move a 5 kW, two-hour activity from **16:00–18:00** to **11:00–13:00**, would that have changed its historical wholesale-price exposure? I kept a 5 kW background load from 08:00–20:00, so both schedules use **70 kWh per day**. This is an invented example; no customer meter or tariff data was used.
 
 ## What the data says
 

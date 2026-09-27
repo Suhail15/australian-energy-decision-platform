@@ -2,9 +2,9 @@
 
 **Can moving a two-hour activity change a business's exposure to wholesale electricity prices?**
 
-I'm Suhail, a data science graduate interested in the gap between a good-looking chart and a decision someone can defend. I first explored a grocery price-history project using my own receipts. There were too few repeat products to make useful claims, so I moved to public Australian energy data and a question I could test more carefully.
+I chose this question because some business activities can move to a different time of day, while electricity prices vary sharply within it. A useful answer needs more than an average price: it needs trustworthy source data, an equal-energy comparison, and a clear account of the tariff and operating constraints that could change the decision. AEMO's public data lets me work through that problem from raw files to a result someone can check.
 
-This project follows Queensland electricity prices from AEMO through a Python and SQL pipeline, a small scenario model, an API, a Streamlit app, and a [four-page Power BI report](powerbi/queensland_energy_market.pbix). The business and its electricity use are **invented**. No Coles, customer, or personal receipt data is used here.
+I built a Python and SQL pipeline for Queensland market data, tested a fixed scheduling scenario, and presented the result through an API, a Streamlit app, and a [four-page Power BI report](powerbi/queensland_energy_market.pbix). The business and its electricity use are **invented**; the comparison measures historical wholesale-price exposure, not a customer's bill.
 
 ## The short answer
 
