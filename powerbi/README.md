@@ -11,6 +11,20 @@ Open [queensland_energy_market.pbix](queensland_energy_market.pbix) in [Power BI
 
 With the Scenario slicer set to **14 June–12 September 2026**, the reopened report shows **$291.74** for the original schedule, **$236.43** for the earlier schedule, and a **$55.31 (18.96%)** difference across **75 included days**; **16 days** were excluded. These are historical wholesale calculations for a hypothetical load, **not customer bill savings**.
 
+## Report preview
+
+These images were exported from the saved Windows report. Market Overview and Price risk use the full **14 September 2025–12 September 2026** snapshot; Scenario uses the holdout dates above.
+
+**Market Overview:** daily price and regional demand, shown on separate scales. The full period has 225 complete `FIRM` price days.
+
+![Market Overview page with daily wholesale price and regional demand charts, and cards for price intervals, complete FIRM days, and negative price share.](../docs/images/powerbi-market-overview.png)
+
+**Scenario:** the historical comparison of two equal-energy schedules. The cards show $291.74 and $236.43 across 75 included days, with a $55.31 difference.
+
+![Scenario page with the holdout date range, exposure cards, daily difference bars, and paired original and alternative lines.](../docs/images/powerbi-scenario.png)
+
+The other pages show [price risk and the weekday/hour matrix](../docs/images/powerbi-price-risk.png) and [definitions and data-quality notes](../docs/images/powerbi-definitions.png).
+
 ## What is inside
 
 The report imports six derived [CSV tables](data/): a date table, a Queensland region row, daily price and demand summaries, full-period weekday/hour price summaries, and daily scenario results. [AUTHORING_GUIDE.md](AUTHORING_GUIDE.md) lists the model relationships, DAX measures, page fields, and the checks completed in Desktop. The source definitions are in [queensland_energy_market.dax](queensland_energy_market.dax); [create_and_check_measures.dax](create_and_check_measures.dax) records the DAX Query View script used during the build.

@@ -47,7 +47,7 @@ The hourly Power BI heatmap covers the **whole loaded period**, so its values do
 
 ## Where to start
 
-1. Open the [Power BI report](powerbi/queensland_energy_market.pbix) in Power BI Desktop on Windows. The [report notes](powerbi/README.md) explain the four pages and their data.
+1. Preview the [four Power BI pages](powerbi/README.md#report-preview), or open the [report file](powerbi/queensland_energy_market.pbix) in Power BI Desktop on Windows.
 2. Read the [decision brief](reports/client_memo.md) for the result, sensitivity, and practical limits.
 3. Look at the [methodology](docs/methodology.md) and [independent result check](reports/verification.md) if you want to see how the numbers were produced.
 
